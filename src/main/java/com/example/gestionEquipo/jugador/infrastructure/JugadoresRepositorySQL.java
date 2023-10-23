@@ -61,6 +61,7 @@ public class JugadoresRepositorySQL implements JugadoresRepository {
 
         return jugador;
     }
+
     @Override
     public Jugador agregarJugador(Jugador jugador) {
         try {
