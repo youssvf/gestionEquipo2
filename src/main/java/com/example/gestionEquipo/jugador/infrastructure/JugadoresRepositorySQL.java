@@ -18,7 +18,7 @@ public class JugadoresRepositorySQL implements JugadoresRepository {
         List<Jugador> jugadores = new ArrayList<>();
 
         try {
-            Statement stmnt = DBConnection.getInstance().createStatement();
+            Statement stmnt = DBConnection.getInstance("jugadores").createStatement();
             ResultSet rs = stmnt.executeQuery("SELECT * FROM jugadores");
             while(rs.next()){
                 String dni = rs.getString("dni");
@@ -43,7 +43,7 @@ public class JugadoresRepositorySQL implements JugadoresRepository {
         Jugador jugador = null;
         Statement stmnt = null;
         try {
-            stmnt = DBConnection.getInstance().createStatement();
+            stmnt = DBConnection.getInstance("jugadores").createStatement();
             ResultSet rs = stmnt.executeQuery("SELECT * FROM jugadores WHERE dni = '" + dni + "';");
             while (rs.next()){
                 String nombre = rs.getString("nombre");
@@ -64,7 +64,7 @@ public class JugadoresRepositorySQL implements JugadoresRepository {
     @Override
     public Jugador agregarJugador(Jugador jugador) {
         try {
-            PreparedStatement stmnt = DBConnection.getInstance().prepareStatement("INSERT INTO jugadores(dni, nombre, apellidos, fechaNac, resistencia, recuperacion, velocidad) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement stmnt = DBConnection.getInstance("jugadores").prepareStatement("INSERT INTO jugadores(dni, nombre, apellidos, fechaNac, resistencia, recuperacion, velocidad) VALUES (?,?,?,?,?,?,?)");
             java.util.Date utilDate = jugador.getFechaNac();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
@@ -84,7 +84,24 @@ public class JugadoresRepositorySQL implements JugadoresRepository {
     }
 
     @Override
-    public Jugador actualizarJugador(String dni, Jugador jnuevo) {
-        return null;
+    public Jugador actualizarJugador(String dni, Jugador jactualizado) {
+        java.util.Date utildate = jactualizado.getFechaNac();
+        java.sql.Date sqldate = new java.sql.Date(utildate.getTime());
+        try {
+            PreparedStatement stmnt = DBConnection.getInstance("jugadores").prepareStatement("UPDATE jugadores SET nombre = ?, apellidos = ?, fechaNac = ?, resistencia= ?, recuperacion = ?, velocidad = ? WHERE dni = '" + dni + "';");
+
+            stmnt.setString(1, jactualizado.getNombre());
+            stmnt.setString(2, jactualizado.getApellidos());
+            stmnt.setDate(3, sqldate);
+            stmnt.setInt(4,jactualizado.getResistencia());
+            stmnt.setInt(5,jactualizado.getRecuperacion());
+            stmnt.setInt(6,jactualizado.getVelocidad());
+
+            stmnt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return jactualizado;
     }
 }

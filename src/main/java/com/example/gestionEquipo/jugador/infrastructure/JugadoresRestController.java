@@ -31,4 +31,10 @@ public class JugadoresRestController {
         this.jugadoresUseCases.agregarJugador(jugador);
         return jugador;
     }
+
+    @PutMapping(path = "api/jugadores/{dni}")
+    public Jugador actualizarJugador(@PathVariable String dni, @RequestBody Jugador jactualizado){
+        this.jugadoresUseCases.actualizarJugador(dni, jactualizado);
+        return jactualizado;
+    }
 }

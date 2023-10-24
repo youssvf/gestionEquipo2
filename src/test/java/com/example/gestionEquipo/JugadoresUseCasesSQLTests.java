@@ -31,4 +31,6 @@ public class JugadoresUseCasesSQLTests {
         Jugador jugador = this.jugadoresUseCases.getByDNI(dni);
         assertEquals(jugador.getDni(),dni);
     }
+
+
 }
