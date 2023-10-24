@@ -14,6 +14,7 @@ public class Ejercicio {
     private List<Material> materiales;
     private List<Recurso> recursos;
 
+
     public Ejercicio(Integer id, Integer duracion, Integer resistencia, Integer recuperacion, Integer velocidad, String titulo, String descripcion, List<Etiqueta> etiquetas, List<Material> materiales, List<Recurso> recursos) {
         this.id = id;
         this.titulo = titulo;
